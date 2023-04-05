@@ -38,7 +38,7 @@ jobs:
           -keystore $KEYSTORE_FILE \
           -storepass $KEYSTORE_PASSWORD \
           -keypass $KEY_PASSWORD \
-          $(find app/build/outputs/apk/google/release -name "*.apk") $KEY_ALIAS
+          $(find ${{ github.workspace }}/app/build/outputs/apk/release -name "*.apk") $KEY_ALIAS
         env:
           KEYSTORE_FILE: ${{ secrets.KEYSTORE_PATH }}
           KEYSTORE_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: GitFlow-v${{ steps.get_version_name.outputs.version_name }}.${{ github.run_number }}.apk
-          path: $(find app/build/outputs/apk/google/release -name "*.apk")
+          path: $(find ${{ github.workspace }}/app/build/outputs/apk/google/release -name "*.apk")
 
 
       - name: Do something with APK
@@ -77,6 +77,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: $(find app/build/outputs/apk/google/release -name "*.apk")
+          asset_path: $(find ${{ github.workspace }}/app/build/outputs/apk/google/release -name "*.apk")
           asset_name: Neakasa-v${{ steps.get_version_name.outputs.version_name }}.${{ github.run_number }}.apk
           asset_content_type: application/vnd.android.package-archive
