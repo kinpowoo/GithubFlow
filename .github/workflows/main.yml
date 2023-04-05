@@ -31,6 +31,10 @@ jobs:
       - name: Build release APK
         run: ./gradlew assembleRelease -PversionCode=${{ github.run_number }} -PflavorName=google
         working-directory: .
+        
+      - name: Print Tree
+        run: tree .
+        working-directory: .
 
       - name: Sign APK
         run: |
