@@ -99,6 +99,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.GITHUB_OUTPUT_path2 }}
+          asset_path: ${{ env.path2 }}
           asset_name: GitFlow-v${{ steps.get_version_name.outputs.version_name }}.${{ github.run_number }}.apk
           asset_content_type: application/vnd.android.package-archive
