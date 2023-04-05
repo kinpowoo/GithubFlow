@@ -13,22 +13,82 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
+        flavorDimensions "versionCode" //多渠道打包必须
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
-    buildTypes {
+    signingConfigs {
+        //注：仅支持v1的签名，不支持v2的签名。
+        debug {
+            v1SigningEnabled true
+            v2SigningEnabled true
+            storeFile file('../sign/sigin.jks')
+            storePassword 'kinpowoo'
+            keyAlias 'gitflow'
+            keyPassword 'kinpowoo'
+        }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            v1SigningEnabled true
+            v2SigningEnabled false
+            storeFile file('../sign/sigin.jks')
+            storePassword 'kinpowoo'
+            keyAlias 'gitflow'
+            keyPassword 'kinpowoo'
         }
     }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            signingConfig signingConfigs.release
+             minifyEnabled true  //會導致阿里SDK初始化失敗
+            shrinkResources true //会导致安全图片大小为0
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+    productFlavors {
+        // 不设置，继承defaultConfig中的配置
+        prod {
+            dimension "versionCode"
+            buildConfigField "boolean","isOverSea",'false'
+            buildConfigField "boolean","isFactoryVer",'false'
+        }
+        xiaomi {
+            dimension "versionCode"
+            buildConfigField "boolean","isOverSea",'false'
+            buildConfigField "boolean","isFactoryVer",'false'
+        }
+        google {
+            dimension "versionCode"
+            buildConfigField "boolean","isOverSea",'true'
+            buildConfigField "boolean","isFactoryVer",'false'
+        }
+    }
+
+//    applicationVariants.all { variant ->
+//        variant.outputs.all {
+//            def fileName
+//            def date = new Date()
+//            def formattedDate = date.format("yyyyMMdd_HH_mm",TimeZone.default)
+//            if (variant.buildType.name == 'release') {
+//                fileName = "neakasa_release_${variant.productFlavors[0].name}_${variant.mergedFlavor.versionName}_${variant.mergedFlavor.versionCode}_${formattedDate}.apk"
+//            } else if (variant.buildType.name == 'debug') {
+//                fileName = "neakasa_debug_${variant.productFlavors[0].name}_${variant.mergedFlavor.versionName}_${variant.mergedFlavor.versionCode}_${formattedDate}.apk"
+//            }else{
+//                fileName = "neakasa.apk"
+//            }
+//            outputFileName = fileName
+//        }
+//    }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
     buildFeatures {
         viewBinding true
