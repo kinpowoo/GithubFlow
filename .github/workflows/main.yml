@@ -54,7 +54,7 @@ jobs:
         id: get_apk_path
         run: |
          apk_file=$(find app/build/outputs/apk/google/release -name "*.apk" -printf "%T+ %p\n" | sort -r | head -n1 | cut -d' ' -f2-)
-         echo "{path}=$apk_file" >> $GITHUB_OUTPUT
+         echo "${path}=$apk_file" >> $GITHUB_OUTPUT
          
       - name: Print OutPut APK Path
         run: echo "APK file path:" + $GITHUB_OUTPUT.path
