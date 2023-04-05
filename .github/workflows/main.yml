@@ -26,7 +26,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build release APK
-        run: ./gradlew assembleRelease -PversionCode=${{ github.run_number }} flavorName=google
+        run: ./gradlew assembleRelease -PversionCode=${{ github.run_number }} -flavorName=google
         working-directory: .
 
       - name: Sign APK
