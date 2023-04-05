@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: GitFlow-v${{ steps.get_version_name.outputs.version_name }}.${{ github.run_number }}.apk
-          path: "$(find app/build/outputs/apk/google/release -name \"*.apk\")"
+          path: $(find ${{github.workspace}}app/build/outputs/apk/google/release -name "*.apk")
 
       - name: Do something with APK
         run: echo ${{ steps.rename_and_upload_apk.outputs.path }}
