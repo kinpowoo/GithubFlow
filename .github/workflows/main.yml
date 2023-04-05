@@ -41,6 +41,7 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        working-directory: .
 
       - name: Rename and upload APK
         id: rename_and_upload_apk
