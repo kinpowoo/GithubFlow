@@ -66,18 +66,11 @@ jobs:
           name: GitFlow-v${{ steps.get_version_name.outputs.version_name }}.${{ github.run_number }}.apk
           path: ${{ env.path }}
 
-      - name: Print after rename Tree
-        run: tree app/build/outputs/apk/
-        working-directory: .
-
       - name: Get Renamed Path
         id: get_renamed_path
         run: |
          apk_file=$(find app/build/outputs/apk/google/release -name "*.apk" -printf "%T+ %p\n" | sort -r | head -n1 | cut -d' ' -f2-)
-         echo "path2=$apk_file" >> $GITHUB_OUTPUT
-
-      - name: Do something with APK
-        run: echo ${{ steps.rename_and_upload_apk.outputs.path }}
+         echo "path2=$apk_file" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
