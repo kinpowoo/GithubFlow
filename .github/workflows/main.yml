@@ -22,6 +22,9 @@ jobs:
         id: get_version_name
         run: echo "::set-output name=version_name::$(grep 'versionName' app/build.gradle | cut -d '"' -f2)"
 
+      - name: Clean output directory
+        run: rm -rf app/build/outputs/*
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
@@ -48,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: GitFlow-v${{ steps.get_version_name.outputs.version_name }}.${{ github.run_number }}.apk
-          path: $(find app/build/outputs/apk/google/release -name "*.apk" -printf "%T+ %p\n" | sort -r | head -n1 | cut -d' ' -f2-)
+          path: $(find app/build/outputs/apk/google/release -name "*.apk")
 
 
       - name: Do something with APK
