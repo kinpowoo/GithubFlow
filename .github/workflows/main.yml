@@ -48,7 +48,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: GitFlow-v${{ steps.get_version_name.outputs.version_name }}.${{ github.run_number }}.apk
-          path: $(find app/build/outputs/apk/google/release -name "*.apk")
+          path: $(find app/build/outputs/apk/google/release -name "*.apk" -printf "%T+ %p\n" | sort -r | head -n1 | cut -d' ' -f2-)
 
       - name: Create Release
         id: create_release
