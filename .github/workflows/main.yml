@@ -35,7 +35,7 @@ jobs:
           -keystore $KEYSTORE_FILE \
           -storepass $KEYSTORE_PASSWORD \
           -keypass $KEY_PASSWORD \
-          app/build/outputs/apk/google/release/app-google-release.apk $KEY_ALIAS
+          $(find app/build/outputs/apk/google/release -name "*.apk") $KEY_ALIAS
         env:
           KEYSTORE_FILE: ${{ secrets.KEYSTORE_PATH }}
           KEYSTORE_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -48,7 +48,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: GitFlow-v${{ steps.get_version_name.outputs.version_name }}.${{ github.run_number }}.apk
-          path: app/build/outputs/apk/release/app-release.apk
+          path: $(find app/build/outputs/apk/google/release -name "*.apk")
 
       - name: Create Release
         id: create_release
