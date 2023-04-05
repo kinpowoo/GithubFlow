@@ -37,7 +37,7 @@ jobs:
           -keypass $KEY_PASSWORD \
           app/build/outputs/apk/release/app-release-unsigned.apk $KEY_ALIAS
         env:
-          KEYSTORE_FILE: ${{ secrets.KEYSTORE_PATH }}
+          KEYSTORE_FILE: ${{ github.workspace }}/sign/sign.jks
           KEYSTORE_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
