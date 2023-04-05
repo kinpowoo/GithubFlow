@@ -29,11 +29,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build release APK
-        run: ./gradlew assembleRelease -PversionCode=${{ github.run_number }} -PflavorName=google
-        working-directory: .
-        
-      - name: Print Tree
-        run: tree app/build/outputs/apk/
+        run: ./gradlew assembleGoogleRelease -PversionCode=${{ github.run_number }}
         working-directory: .
 
       - name: Sign APK
@@ -50,12 +46,17 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         working-directory: .
 
+      - name: Print Tree
+        run: tree app/build/outputs/apk/
+        working-directory: .
+        
       - name: Rename and upload APK
         id: rename_and_upload_apk
         uses: actions/upload-artifact@v2
         with:
           name: GitFlow-v${{ steps.get_version_name.outputs.version_name }}.${{ github.run_number }}.apk
           path: $(find app/build/outputs/apk/google/release -name "*.apk")
+          working-directory: .
 
       - name: Do something with APK
         run: echo ${{ steps.rename_and_upload_apk.outputs.path }}
