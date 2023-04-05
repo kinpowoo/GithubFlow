@@ -64,7 +64,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: GitFlow-v${{ steps.get_version_name.outputs.version_name }}.${{ github.run_number }}.apk
-          path: $GITHUB_OUTPUT.path
+          path: ${{ env.GITHUB_OUTPUT_path }}
 
       - name: Print after rename Tree
         run: tree app/build/outputs/apk/
