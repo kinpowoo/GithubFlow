@@ -54,17 +54,17 @@ jobs:
         id: get_apk_path
         run: |
          apk_file=$(find app/build/outputs/apk/google/release -name "*.apk" -printf "%T+ %p\n" | sort -r | head -n1 | cut -d' ' -f2-)
-         echo "path=$apk_file" >> $GITHUB_OUTPUT
+         echo "path=$apk_file" >> $GITHUB_ENV
          
       - name: Print OutPut APK Path
-        run: echo "APK file path:" + ${{ env.GITHUB_OUTPUT_path }}
+        run: echo "APK file path:" + ${{ env.path }}
         working-directory: .
 
       - name: Rename and upload APK
         uses: actions/upload-artifact@v2
         with:
           name: GitFlow-v${{ steps.get_version_name.outputs.version_name }}.${{ github.run_number }}.apk
-          path: ${{ env.GITHUB_OUTPUT_path }}
+          path: ${{ env.path }}
 
       - name: Print after rename Tree
         run: tree app/build/outputs/apk/
