@@ -55,7 +55,7 @@ jobs:
         run: |
          apk_file=$(find app/build/outputs/apk/google/release -name "*.apk" -printf "%T+ %p\n" | sort -r | head -n1 | cut -d' ' -f2-)
          echo "APK file path: $apk_file"
-         echo "::set-output name=path::$apk_file"
+         echo "{path}=path::$apk_file" >> $GITHUB_OUTPUT
 
       - name: Do something with APK
         run: echo ${{ steps.rename_and_upload_apk.outputs.path }}
@@ -80,6 +80,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: $(find app/build/outputs/apk/google/release -name "*.apk" -printf "%T+ %p\n" | sort -r | head -n1 | cut -d' ' -f2-)
+          asset_path: ${{ steps.rename_and_upload_apk.outputs.path }}
           asset_name: Neakasa-v${{ steps.get_version_name.outputs.version_name }}.${{ github.run_number }}.apk
           asset_content_type: application/vnd.android.package-archive
