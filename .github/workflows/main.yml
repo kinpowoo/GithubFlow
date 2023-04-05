@@ -54,10 +54,10 @@ jobs:
         id: get_apk_path
         run: |
          apk_file=$(find app/build/outputs/apk/google/release -name "*.apk" -printf "%T+ %p\n" | sort -r | head -n1 | cut -d' ' -f2-)
-         echo "${path}=$apk_file" >> $GITHUB_OUTPUT
+         echo "path=$apk_file" >> $GITHUB_OUTPUT
          
       - name: Print OutPut APK Path
-        run: echo "APK file path:" + $GITHUB_OUTPUT.path
+        run: echo "APK file path:" + ${{ env.GITHUB_OUTPUT_path }}
         working-directory: .
 
       - name: Rename and upload APK
@@ -74,7 +74,7 @@ jobs:
         id: get_renamed_path
         run: |
          apk_file=$(find app/build/outputs/apk/google/release -name "*.apk" -printf "%T+ %p\n" | sort -r | head -n1 | cut -d' ' -f2-)
-         echo "{path2}=$apk_file" >> $GITHUB_OUTPUT
+         echo "path2=$apk_file" >> $GITHUB_OUTPUT
 
       - name: Do something with APK
         run: echo ${{ steps.rename_and_upload_apk.outputs.path }}
@@ -99,6 +99,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: $GITHUB_OUTPUT.path2
+          asset_path: ${{ env.GITHUB_OUTPUT_path2 }}
           asset_name: GitFlow-v${{ steps.get_version_name.outputs.version_name }}.${{ github.run_number }}.apk
           asset_content_type: application/vnd.android.package-archive
