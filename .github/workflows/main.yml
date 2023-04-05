@@ -50,6 +50,10 @@ jobs:
           name: GitFlow-v${{ steps.get_version_name.outputs.version_name }}.${{ github.run_number }}.apk
           path: $(find app/build/outputs/apk/google/release -name "*.apk" -printf "%T+ %p\n" | sort -r | head -n1 | cut -d' ' -f2-)
 
+
+      - name: Do something with APK
+        run: echo ${{ steps.rename_and_upload_apk.outputs.path }}
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
